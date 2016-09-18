@@ -1,0 +1,5 @@
+/Users/Pharoah610/Projects/TicTacToe/TicTacToe/obj/x86/Release/.NETFramework,Version=v4.5.AssemblyAttribute.cs
+/Users/Pharoah610/Projects/TicTacToe/TicTacToe/bin/Release/TicTacToe.exe.mdb
+/Users/Pharoah610/Projects/TicTacToe/TicTacToe/bin/Release/TicTacToe.exe
+/Users/Pharoah610/Projects/TicTacToe/TicTacToe/obj/x86/Release/TicTacToe.exe
+/Users/Pharoah610/Projects/TicTacToe/TicTacToe/obj/x86/Release/TicTacToe.exe.mdb
