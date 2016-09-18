@@ -23,11 +23,15 @@ namespace TicTacToe
 			
 				if (keyInfo.Key == ConsoleKey.Spacebar) {
 					if (started) {
-						if (scrollX != -1 && scrollY != -1) {
-							int[] scrolledToLocation = b.right (scrollX, scrollY);
-							scrollX	= scrolledToLocation [0];
-							scrollY = scrolledToLocation [1];
-						}
+						//if (b.openSquares () != 1) {
+							if (scrollX != -1 && scrollY != -1) {
+								int[] scrolledToLocation = b.right (scrollX, scrollY);
+								scrollX	= scrolledToLocation [0];
+								scrollY = scrolledToLocation [1];
+							}
+						//} else {
+
+						//}
 					}
 				} else if (keyInfo.Key == ConsoleKey.Enter) {
 					if (started) {
@@ -39,6 +43,11 @@ namespace TicTacToe
 						}
 
 						// Check if the the player won
+						gameLogic.upateBoard (b.getBoard ());
+						if (b.openSquares () == 1) {
+							doPlay (engine, b, b.lastX (), b.lastY ());
+							Console.WriteLine ("The last square was filled in automatically");
+						}
 						gameLogic.upateBoard (b.getBoard ());
 						if (gameLogic.didPlayerWin ()) {
 							Console.WriteLine (Environment.NewLine + "YOU WIN!!!");
@@ -57,8 +66,6 @@ namespace TicTacToe
 						b.updateForBoard ();
 					}
 				}
-				//b.play (0, 1, 1);
-				//b.play (1, 0, 1);
 			}
 		}
 
@@ -70,7 +77,8 @@ namespace TicTacToe
 				Solution move = e.makeMove ();
 				brd.play (1, move.x, move.y);
 			} else {
-				Console.WriteLine ("Use Enter to select a square first");
+				Console.Clear ();
+				Console.WriteLine ("Press Space to select a square first");
 			}
 		}
 	}

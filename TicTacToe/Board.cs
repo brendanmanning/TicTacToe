@@ -114,30 +114,30 @@ namespace TicTacToe
 			}
 
 			// Cursor is at last position
-			if (available [available.Length - 1].Equals ("(" + cx + "," + cy + ")")) {
-				return showCursorAt (Int32.Parse (available [0].Split (",".ToCharArray () [0]) [0].Substring (1)), Int32.Parse (available [0].Split (",".ToCharArray () [0]) [1].Remove (1)));
-			} else if(available.Length == 1) {
-				showCursorAt (getX (available, 0), getY (available, 0));
-				return new int[2]{ -1, -1 };
-			} else {
-				int indexOfCursor = -1;
-				for(int indx = 0; indx < available.Length; indx++)
-				{
-					if (available [indx].Equals ("(" + cx + "," + cy + ")")) {
-						indexOfCursor = indx;
+			try {
+				if (available [available.Length - 1].Equals ("(" + cx + "," + cy + ")")) {
+					return showCursorAt (Int32.Parse (available [0].Split (",".ToCharArray () [0]) [0].Substring (1)), Int32.Parse (available [0].Split (",".ToCharArray () [0]) [1].Remove (1)));
+				} else if(available.Length == 1) {
+					showCursorAt (getX (available, 0), getY (available, 0));
+					return new int[2]{ -1, -1 };
+				} else {
+					int indexOfCursor = -1;
+					for(int indx = 0; indx < available.Length; indx++)
+					{
+						if (available [indx].Equals ("(" + cx + "," + cy + ")")) {
+							indexOfCursor = indx;
+						}
+					}
+
+					if (indexOfCursor != -1) {
+						return showCursorAt (Int32.Parse (available [indexOfCursor + 1].Split (",".ToCharArray () [0]) [0].Substring (1)), Int32.Parse (available [indexOfCursor + 1].Split (",".ToCharArray () [0]) [1].Remove (1)));
+					} else {
+						return right (Int32.Parse (available [indexOfCursor + 2].Split (",".ToCharArray () [0]) [0].Substring (1)),
+						Int32.Parse (available [indexOfCursor + 2].Split (",".ToCharArray () [0]) [1].Remove (1)));
 					}
 				}
-
-				if (indexOfCursor != -1) {
-					return showCursorAt (Int32.Parse (available [indexOfCursor + 1].Split (",".ToCharArray () [0]) [0].Substring (1)), Int32.Parse (available [indexOfCursor + 1].Split (",".ToCharArray () [0]) [1].Remove (1)));
-				} else {
-					return right (Int32.Parse (available [indexOfCursor + 2].Split (",".ToCharArray () [0]) [0].Substring (1)),
-						Int32.Parse (available [indexOfCursor + 2].Split (",".ToCharArray () [0]) [1].Remove (1)));
-					//return new int[2] {
-						//Int32.Parse (available [indexOfCursor + 2].Split (",".ToCharArray () [0]) [0].Substring (1)),
-						//Int32.Parse (available [indexOfCursor + 2].Split (",".ToCharArray () [0]) [1].Remove (1))
-					//};
-				}
+			} catch (Exception e) {
+				return new int[2]{ -1, -1 };
 			}
 		}
 
@@ -173,7 +173,11 @@ namespace TicTacToe
 		//MARK: Utility
 		public bool canPlay(int atX, int atY)
 		{
-			return (tiles[atX,atY] == -1);
+			try {
+				return (tiles[atX,atY] == -1);
+			} catch (Exception e){
+				return false;
+			}
 		}
 
 		public string newLines(int count)
@@ -215,6 +219,45 @@ namespace TicTacToe
 		public int[,] getBoard()
 		{
 			return tiles;
+		}
+
+		public int openSquares()
+		{
+			int open = 0;
+			for (int x = 0; x < 3; x++) {
+				for (int y = 0; y < 3; y++) {
+					if (tiles [x, y] == -1) {
+						open++;
+					}
+				}
+			}
+			return open;
+		}
+
+		/* CALL ONLY WHEN YOU KNOW ONLY ONE TILE IS LEFT */
+		public int lastX()
+		{
+			for (int x = 0; x < 3; x++) {
+				for (int y = 0; y < 3; y++) {
+					if (tiles [x, y] == -1) {
+						return x;
+					}
+				}
+			}
+
+			return -1;
+		}
+		public int lastY()
+		{
+			for (int x = 0; x < 3; x++) {
+				for (int y = 0; y < 3; y++) {
+					if (tiles [x, y] == -1) {
+						return y;
+					}
+				}
+			}
+
+			return -1;
 		}
 	}
 }

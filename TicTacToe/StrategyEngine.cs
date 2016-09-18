@@ -30,13 +30,13 @@ namespace TicTacToe
 			 * were found, so always check before using a solution. It will crash otherwise */
 
 			// See if AI is one move away from wining
-			Solution s = needsToPlayDefensive(1);
+			Solution s = isAboutToWin(1);
 			if (s.winningMove) {
 				return s;
 			}
 
 			// See if the player is one move away from winning
-			Solution ds = needsToPlayDefensive(0);
+			Solution ds = isAboutToWin(0);
 			if (ds.winningMove) {
 				return ds;
 			}
@@ -102,7 +102,7 @@ namespace TicTacToe
 				spotX = Int32.Parse(availableSpots [index].Replace (")", "").Replace("(","").Split(",".ToCharArray()[0]) [0]);
 				spotY = Int32.Parse(availableSpots [index].Replace (")", "").Replace("(","").Split(",".ToCharArray()[0]) [1]);
 			} catch (Exception e) {
-				Console.WriteLine ("Error");
+				//Console.WriteLine ("Error");
 			}
 			return new Solution (spotX, spotY);
 		}
@@ -124,12 +124,12 @@ namespace TicTacToe
 
 		// Pass 1 to see if player is about to win and AI Must be defensive
 		// Pass 0 to see if AI is about to win and player should be defensive
-		public Solution needsToPlayDefensive(int player)
+		public Solution isAboutToWin(int player)
 		{
 			int p = player;
 			for (int x = 0; x < 3; x++) {
 				for (int y = 0; y < 3; y++) {
-					if (board [x, y] == 0) {
+					if (board [x, y] == p) {
 
 						// Check for horizontal
 
@@ -139,7 +139,7 @@ namespace TicTacToe
 						if (x == 1) {
 							if (board [x - 1, y] == p) {
 								if (board [x + 1, y] == -1) {
-									Console.WriteLine ("C1");
+									//Console.WriteLine ("C1");
 									return new Solution(x+1,y);
 								}
 							}
@@ -150,7 +150,7 @@ namespace TicTacToe
 						//...This requires being in a middle tile
 						if (x == 1) {
 							if ((board [x + 1, y] == p) && (board [x - 1, y] == -1)) {
-								Console.WriteLine ("C2");
+								//Console.WriteLine ("C2");
 								return new Solution(x-1,y);
 							}
 						}
@@ -159,7 +159,7 @@ namespace TicTacToe
 						//..This will only work on the right side of the board
 						if (x == 2) {
 							if ((board [x - 1, y] == p) && (board [x - 2, y] == -1)) {
-								Console.WriteLine ("C3");
+								//Console.WriteLine ("C3");
 								return new Solution(x-2,y);
 							}
 						}
@@ -168,7 +168,7 @@ namespace TicTacToe
 						//..This only works on the left side of the board
 						if (x == 0) {
 							if ((board [x + 1, y] == p) && (board [x + 2, y] == -1)) {
-								Console.WriteLine ("C4");
+								//Console.WriteLine ("C4");
 								return new Solution(x+2,y);
 							}
 						}
@@ -179,6 +179,7 @@ namespace TicTacToe
 						//....So we'll get to it eventually
 						if (x == 0) {
 							if ((board [x + 2, y] == p) && (board [x + 1, y] == -1)) {
+								//Console.WriteLine ("C5");
 								return new Solution(x+1,y);
 							}
 						}
@@ -189,7 +190,7 @@ namespace TicTacToe
 						//..This requires being in a middle (of y)
 						if (y == 1) {
 							if ((board [x, y - 1] == p) && (board [x, y + 1] == -1)) {
-								Console.WriteLine ("C5");
+								//Console.WriteLine ("C6");
 								return new Solution(x,y+1);
 							}
 						}
@@ -198,6 +199,7 @@ namespace TicTacToe
 						//..This requires being the a middle tile (y=1)
 						if (y == 1) {
 							if ((board [x, y + 1] == p) && (board [x, y - 1] == -1)) {
+								//Console.WriteLine ("C7");
 								return new Solution (x, y - 1);
 							}
 						}
@@ -206,6 +208,7 @@ namespace TicTacToe
 						//..Requires being at the top
 						if (y == 0) {
 							if ((board [x, y + 1] == p) && (board [x, y + 2] == -1)) {
+								//Console.WriteLine ("C8");
 								return new Solution(x,y+2);
 							}
 						}
@@ -214,6 +217,7 @@ namespace TicTacToe
 						//..Requires being on the bottom
 						if (y == 2) {
 							if ((board [x, y - 1] == p) && (board [x, y - 2] == -1)) {
+								//Console.WriteLine ("C9");
 								return new Solution(x,y-2);
 							}
 						}
@@ -223,6 +227,7 @@ namespace TicTacToe
 						//...We loop through all the tiles so if we don't get to it now we will later
 						if (y == 0) {
 							if ((board [x, y + 2] == p) && (board [x, y + 1] == -1)) {
+								//Console.WriteLine ("C10");
 								return new Solution(x,y+1);
 							}
 						}
@@ -231,24 +236,28 @@ namespace TicTacToe
 						// Top left corner
 						if ((x == 0) && (y == 0)) {
 							if ((board [x + 1, y + 1] == p) && (board [x + 2,y + 2] == -1)) {
+								//Console.WriteLine ("C11");
 								return new Solution(x+2,y+2);
 							}
 						}
 						// Top right corner
 						if ((x == 2) && (y == 0)) {
 							if ((board [x - 1, y + 1] == p) && (board [x - 2, y + 2] == -1)) {
+								//Console.WriteLine ("C12");
 								return new Solution(x-2,y+2);
 							}
 						}
 						// Bottom right corner
 						if ((x == 2) && (y == 2)) {
 							if ((board [x - 1, y - 1] == p) && (board [x - 2, y - 2] == -1)) {
+								//Console.WriteLine ("C14");
 								return new Solution(x-2,y-2);
 							}
 						}
 						// Bottom left corner
 						if ((x == 0) && (y == 2)) {
 							if ((board [x + 1, y - 1] == p) && (board [x + 2, y - 2] == -1)) {
+								//Console.WriteLine ("C15");
 								return new Solution(x+2,y-2);
 							}
 						}
@@ -257,19 +266,21 @@ namespace TicTacToe
 						// Top left && bottom right
 						if ((x == 0) && (y == 0)) {
 							if ((board [x + 2, y + 2] == p) && (board [x + 1, y + 1] == -1)) {
+								//Console.WriteLine ("C16");
 								return new Solution(x+1,y+1);
 							}
 						}
 						// Top right && bottom left
 						if ((x == 2) && (y == 0)) {
 							if ((board [x - 2, y + 2] == p) && (board [x - 1, y + 1] == -1)) {
+								//Console.WriteLine ("C17");
 								return new Solution(x-1,y+1);
 							}
 						}
 					}
 				}
 			}
-			Console.WriteLine ("C0");
+			//Console.WriteLine ("C0");
 
 			Solution noSolution = new Solution(-1,-1);
 			noSolution.winningMove = false;
