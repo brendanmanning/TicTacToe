@@ -1,3 +1,3 @@
 # TicTacToe
 Everyone should make a tic tac toe game at some point....
-[https://github.com/brendanmanning/TicTacToe/raw/master/bin/TicTacToe.exe](Download)
+(https://github.com/brendanmanning/TicTacToe/raw/master/bin/TicTacToe.exe)[Download]
