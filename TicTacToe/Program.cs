@@ -67,6 +67,8 @@ namespace TicTacToe
 					}
 				}
 			}
+			Console.WriteLine("Press enter to close...");
+			Console.ReadLine();
 		}
 
 		public static void doPlay(StrategyEngine e,Board brd,int x, int y)
